@@ -1,0 +1,149 @@
+:root {
+  --primary-color: #0db75f;
+  --primary-color-dark: #0c9a51;
+  --text-dark: #030712;
+  --text-light: #6b7280;
+  --extra-light: #d1d5db;
+  --white: #ffffff;
+  --max-width: 1200px;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.main__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.container {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container__text span {
+  color: var(--primary-color);
+}
+
+.form__input input {
+  padding: 1rem 0.4rem;
+  border: 1px solid var(--extra-light);
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  margin: 0.2rem 0;
+  width: 20rem;
+}
+
+.container__img img {
+  width: 300px;
+  opacity: 6;
+  transition: opacity 0.3s ease-in-out; /* Transição suave de opacidade */
+}
+
+.form__btn button {
+  color: var(--white);
+  background-color: var(--primary-color);
+  border: none;
+  padding: 0.8rem 3rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.form__btn button:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.form__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form__btn a {
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+
+.form__btn a:hover {
+  color: var(--primary-color);
+}
+
+.form__paragraphy p {
+  color: var(--text-light);
+  line-height: 1.74rem;
+  width: 30rem;
+}
+
+.text span {
+  color: var(--primary-color);
+}
+
+label {
+  cursor: pointer;
+}
+
+/* form{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.form__input {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (max-width: 939px) {
+  .container {
+    /* background-color: red; */
+    flex-direction: column-reverse;
+  }
+
+  .container__text h1 {
+    text-align: center;
+  }
+  .form__input label,
+  .form__password label {
+    margin-top: 0.5rem;
+  }
+
+  .form__input {
+    align-items: flex-start;
+  }
+
+  .container__img img {
+    width: 100%;
+  }
+
+  .form__password label {
+    margin-bottom: 0.5rem;
+  }
+
+  .form__input input,
+  .form__password input,
+  .form__btn button {
+    width: 100%;
+  }
+   
+  .form__btn button {
+  }
+  .form__paragraphy .text {
+    text-align: center;
+    width: 100%;
+  }
+}

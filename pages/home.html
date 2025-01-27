@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="header__title">
+          <h1>IPDDF</h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <a href="enviados.html"
+                >Página de Visualização de arqquivos enviados</a
+              >
+            </li>
+
+            <li><p>Upload de Ficheiros</p></li>
+            <li></li>
+            <li><p>Organização</p></li>
+          </ul>
+        </nav>
+      </header>
+      <!--  -->
+      <div class="container">
+        <div class="container__title">
+          <h2>Welcome <span> Professor!</span></h2>
+          <p>
+            Here you can salve your materal and search with people all over the
+            school
+          </p>
+        </div>
+        <div class="container__form">
+          <form method="">
+            <div class="form__input">
+              <input type="text" id="nomeProfessor" name="nome" placeholder="Nome do professor" required />
+            </div>
+            <div class="form__input">
+              <select name="turma" id="turma" required>
+                <option value="" disabled selected>Cursos</option>
+                <option value="TI12">TI12</option>
+                <option value="Mecanica">Mecânica</option>
+                <option value="BIOQUIMICA">BioQuímica</option>
+              </select>
+              <!--  -->
+              <select name="disciplina" id="disciplina" required>
+                <option value="" disabled selected>Cadeiras</option>
+                <!-- Opções dinâmicas serão adicionadas aqui -->
+              </select>
+            </div>
+            <div class="form__feedback">
+              <textarea
+                name="recomendacoes"
+                placeholder="Feedback do arquivo"
+                required
+                id="explicacao"
+              ></textarea>
+            </div>
+            <input
+              type="file"
+              name="arquivo"
+              required
+              class="chooseFile"
+              accept=".pdf, .docx, .txt, .ppt, .pptx"
+            />
+            <div class="form__input">
+              <button type="button" onclick="getDados()">Publicar Agora</button>
+            </div>
+            <p id="mensagem" style="text-align: center; font-weight: bold;"></p>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script>
+      // Carregar dados existentes do localStorage ou iniciar um array vazio
+      const dados = JSON.parse(localStorage.getItem("dados")) || [];
+    
+      function getDados() {
+        // Capturar os valores preenchidos pelo usuário corretamente
+        const  teacher  = document.getElementById("nomeProfessor").value;
+        const turma = document.getElementById("turma").value;
+        const disciplina = document.getElementById("disciplina").value;
+        const recomendacoes = document.getElementById("explicacao").value;
+        const arquivo = document.querySelector(".chooseFile").files[0];
+    
+        // Verificar se todos os campos foram preenchidos
+        if (!teacher  || !turma || !disciplina || !recomendacoes || !arquivo) {
+          mensagem.textContent = "Por favor, preencha todos os campos.";
+          mensagem.style.color = "red";
+          return;
+        }
+    
+        // Criar objeto para armazenar os dados
+        const novoDado = {
+          teacher:teacher,
+          turma: turma,
+          disciplina: disciplina,
+          recomendacoes: recomendacoes,
+          arquivoNome: arquivo.name, // Salva apenas o nome do arquivo
+        };
+    
+        // Adicionar novo dado ao array de dados
+        dados.push(novoDado);
+    
+        // Salvar os dados atualizados no localStorage
+        localStorage.setItem("dados", JSON.stringify(dados));
+         // Exibir mensagem de sucesso
+          mensagem.textContent = "Seu arquivo foi guardado com sucesso.";
+          mensagem.style.color = "green";
+
+           // Redirecionar após 2 segundos
+          setTimeout(() => {
+          window.location.href = "./enviados.html";
+          }, 2000);
+
+
+      }
+    
+      // Objeto com disciplinas por turma
+      const disciplinasPorTurma = {
+        TI12: ["TLP", "SEAC", "TREI"],
+        Mecanica: ["Engenharia", "Desenho Técnico", "Física"],
+        BIOQUIMICA: ["Química Orgânica", "Biologia", "Laboratório"],
+      };
+    
+      // Evento para preencher dinamicamente as opções de disciplinas
+      document.getElementById("turma").addEventListener("change", function () {
+        const turmaSelecionada = this.value;
+        const disciplinaSelect = document.getElementById("disciplina");
+    
+        // Resetar o select antes de adicionar novas opções
+        disciplinaSelect.innerHTML =
+          '<option value="" disabled selected>Cadeiras</option>';
+    
+        if (disciplinasPorTurma[turmaSelecionada]) {
+          disciplinasPorTurma[turmaSelecionada].forEach((disciplina) => {
+            const option = document.createElement("option");
+            option.value = disciplina;
+            option.textContent = disciplina;
+            disciplinaSelect.appendChild(option);
+          });
+        }
+      });
+    </script>
+    
+
+    <!-- <script>
+      const v = [];
+
+      const dados = JSON.parse(localStorage.getItem("dados")) || [];
+
+      function getDados() {
+        dados.push({
+          local: turma.value,
+          cadeira: disciplina.value,
+          informacao: explicacao.value,
+        });
+
+        localStorage.setItem("dados", JSON.stringify(dados));
+
+        dados.forEach((dado) => {
+          aparecerFile.innerHTML += `
+             <p>${recomendacoes} </p>
+          `;
+        });
+
+        location = "./enviados.html";
+      }
+
+      // v.push({
+      //   nome: name.value,
+      //   curso: curso.value,
+      //   turma: turma.value,
+      //   cadeira: cadeira.value,
+      // });
+      const disciplinasPorTurma = {
+        TI12: ["TLP", "SEAC", "TREI"],
+        Mecanica: ["Engenharia", "Desenho Técnico", "Física"],
+        BIOQUIMICA: ["Química Orgânica", "Biologia", "Laboratório"],
+      };
+
+      document.getElementById("turma").addEventListener("change", function () {
+        const turmaSelecionada = this.value;
+        const disciplinaSelect = document.getElementById("disciplina");
+
+        disciplinaSelect.innerHTML =
+          '<option value="" disabled selected>Cadeiras</option>';
+
+        if (disciplinasPorTurma[turmaSelecionada]) {
+          disciplinasPorTurma[turmaSelecionada].forEach((disciplina) => {
+            const option = document.createElement("option");
+            option.value = disciplina;
+            option.textContent = disciplina;
+            disciplinaSelect.appendChild(option);
+          });
+        }
+      });
+    </script>
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Arquivos Enviados</title>
+        <link rel="stylesheet" href="home.css" />
+      </head>
+      <body>
+        <main>
+          <header>
+            <h1>Arquivos Enviados</h1>
+            <a href="index.html">Voltar</a>
+          </header>
+          <div class="container">
+            <h2>Lista de Arquivos</h2>
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Turma</th>
+                  <th>Disciplina</th>
+                  <th>Recomendações</th>
+                  <th>Arquivo</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaArquivos"></tbody>
+            </table>
+          </div>
+        </main>
+
+        <script>
+          // Recuperar os dados salvos no localStorage
+          const listaArquivos =
+            JSON.parse(localStorage.getItem("arquivos")) || [];
+
+          // Exibir os dados na tabela
+          const tabela = document.getElementById("tabelaArquivos");
+          listaArquivos.forEach((arquivo, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+        <td>${arquivo.turma}</td>
+        <td>${arquivo.disciplina}</td>
+        <td>${arquivo.recomendacoes}</td>
+        <td><a href="#">${arquivo.arquivoNome}</a></td>
+      `;
+            tabela.appendChild(row);
+          });
+
+          if (listaArquivos.length === 0) {
+            tabela.innerHTML =
+              '<tr><td colspan="4">Nenhum arquivo enviado.</td></tr>';
+          }
+        </script> -->
+      </body>
+    </html>
+  </body>
+</html>

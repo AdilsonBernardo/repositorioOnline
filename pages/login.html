@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="login__form">
+      <form action="">
+        <div class="form__text">
+          <h1>Register to start to use the <span>services</span> professor</h1>
+        </div>
+        <div class="form__input">
+          <label for="text">Full name</label>
+          <input type="text" placeholder="Full name" required id="fullname" />
+        </div>
+        <div class="form__input">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            id="password"
+          />
+        </div>
+        <div class="form__btn">
+          <button type="button" onclick="login()">Login now</button>
+          <a href="#">Lost your password</a>
+        </div>
+        <div class="form__paragraphy">
+          <p class="textparagraphy">
+            Are you new in this web app?
+            <a href="createAccount.html">Create Account!</a>
+          </p>
+          <h2>Welcome to the <span>Repositorio online!</span></h2>
+          <p class="text">
+            ©2025 All Rights Reserved. TI12C! Privacy and Terms Create Account
+            Log in our Repositorio online!
+          </p>
+          <p class="text" id="sms">
+          </p>
+        </div>
+      </form>
+      <div class="login__img">
+        <img src="/pages/assets/background.jpg" alt="" />
+      </div>
+    </div>
+    <script>
+      // Recupera as contas armazenadas no localStorage ou inicializa um array vazio
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+      function login() {
+        // Capturar elementos de entrada
+        const fullname = document.getElementById("fullname").value.trim();
+        const password = document.getElementById("password").value;
+        const sms = document.getElementById("sms");
+
+        // Limpa mensagens anteriores
+        sms.innerHTML = "";
+        sms.style.color = "red";
+
+        // Validação de campos vazios
+        if (!fullname || !password) {
+          sms.innerHTML = "Preencha todos os campos!";
+          return;
+        }
+
+        // Procura um usuário correspondente
+        const user = accounts.find(
+          (account) =>
+            account.nome.toLowerCase() === fullname.toLowerCase() &&
+            account.palavraPasse === password
+        );
+
+
+        // Verifica se o usuário foi encontrado
+        if (user) {
+          sms.style.color = "green";
+          sms.innerHTML = "Login realizado com sucesso! Redirecionando...";
+
+          // Simula redirecionamento após sucesso
+          setTimeout(() => {
+            window.location.href = "./home.html";
+          }, 2000);
+        } else {
+          sms.innerHTML = "Nome ou senha incorretos!";
+        }
+      }
+
+      // Enter para login
+      document.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          login();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- <script>
+  const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+  function login() {
+    accounts.forEach(function (account) {
+      if (
+        account.nome == fullname.value &&
+        account.palavraPasse == password.value
+      ) {
+        location = "./home.html";
+      }
+      sms.innerHTML = "Dados invalidos!";
+    });
+  }
+</script> -->

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account</title>
+    <link rel="stylesheet" href="createAccount.css" />
+  </head>
+  <body>
+    <div class="main__container">
+      <div class="container">
+        <form action="">
+          <div class="container__text">
+            <h1>Create account <span>now!</span></h1>
+          </div>
+          <div class="form__input">
+            <label for="text">Full name</label>
+            <input type="text" id="fullName" placeholder="Full name" required />
+          </div>
+          <div class="form__input">
+            <label for="password">Password</label>
+            <input type="password" id="fullPassword" placeholder="Password" />
+          </div>
+
+          <div class="form__input">
+            <label for="password"> Confirm password</label>
+            <input
+              type="text"
+              id="confirmPassword"
+              placeholder="Confirm password"
+            />
+          </div>
+          <div class="form__btn">
+            <button type="button" onclick="getData()">Login now</button>
+          </div>
+          <div class="form__paragraphy">
+            <p class="text">
+              ©2025 All Rights Reserved. TI12C! Privacy and Terms Create Account
+              to Log in <span> Repositorio online! </span>
+            </p>
+            <p class="text" style="color: red" id="sms"></p>
+          </div>
+        </form>
+        <div class="container__img">
+          <img id="imageSlide" src="/pages/assets/headerAccount.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Array com os caminhos das imagens
+      // Array com os caminhos das imagens
+      const images = [
+        // "/pages/assets/headerAccount.png",
+        // "/pages/assets/fundo.jpg", // Substitua pelos caminhos reais
+        "/pages/assets/header.jpg", // Substitua pelos caminhos reais
+      ];
+      // Função para trocar a imagem
+      let currentImageIndex = 0;
+      function changeImage() {
+        const imgElement = document.getElementById("imageSlide");
+
+        // Aplicar a transição de desaparecimento
+        imgElement.style.opacity = 0;
+
+        // Após a transição de desaparecimento (0.3 segundo), mudar a imagem
+        setTimeout(() => {
+          // Trocar a imagem
+          imgElement.src = images[currentImageIndex];
+
+          // Atualizar o índice da imagem para a próxima
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+
+          // Após a troca de imagem, fazer a imagem aparecer com a transição
+          imgElement.style.opacity = 1;
+        }, 200); // 300ms = 0.3 segundo (tempo da transição de desaparecimento)
+      }
+
+      // Troca de imagem a cada 60 segundos (60000 milissegundos)
+      setInterval(changeImage, 2000);
+
+      // Troca a imagem inicialmente quando a página é carregada
+      changeImage();
+
+      // Recupera contas do localStorage ou inicia um array vazio
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+      function getData() {
+        // Capturar elementos
+        const fullName = document.getElementById("fullName").value.trim();
+        const fullPassword = document.getElementById("fullPassword").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const sms = document.getElementById("sms");
+
+        // Limpa mensagens anteriores
+        sms.innerHTML = "";
+
+        // Validações de campo vazio
+        if (!fullName || !fullPassword || !confirmPassword) {
+          sms.innerHTML = "Preencha todos os campos!";
+          return;
+        }
+
+        // Verificação se o nome de usuário já existe
+        if (
+          accounts.some(
+            (account) => account.nome.toLowerCase() === fullName.toLowerCase()
+          )
+        ) {
+          sms.innerHTML = "Este nome de usuário já está em uso!";
+          return;
+        }
+
+        // Validação de senha forte (mínimo 8 caracteres)
+        const passwordRegex = /[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(fullPassword)) {
+          sms.innerHTML =
+            "A senha deve ter pelo menos 8 caracteres, incluindo letras, números e símbolos!";
+          return;
+        }
+
+        // Confirmação de senha
+        if (fullPassword !== confirmPassword) {
+          sms.innerHTML = "As senhas precisam ser iguais!";
+          return;
+        }
+
+        // Armazena nova conta no localStorage
+        accounts.push({
+          nome: fullName,
+          palavraPasse: fullPassword,
+        });
+
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+
+        // Mensagem de sucesso
+        sms.style.color = "green";
+        sms.innerHTML = "Conta criada com sucesso! Redirecionando...";
+
+        setTimeout(() => {
+          window.location.href = "./login.html";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>

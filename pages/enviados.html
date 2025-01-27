@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arquivos guardados</title>
+    <link rel="stylesheet" href="enviados.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav__logo">
+        <p>IPDDF</p>
+      </div>
+      <div class="nav__text">
+        <div class="nav__contact">
+          <p class="call">Call Us</p>
+          <p class="number">+124 947 556 422</p>
+        </div>
+        <div class="nav__infor">
+          <div class="email">
+            <p class="our">Our E-mail</p>
+            <p class="email">domdamiaofranklin@gmail.com</p>
+          </div>
+          <button><a href="login.html">Login now Professor </a></button>
+        </div>
+      </div>
+    </nav>
+    <div class="background"></div>
+
+    <div class="home">
+      <div class="home__text">
+        <div class="home__title">
+          <h1>Search file that you feel interests to <span>study</span></h1>
+        </div>
+        <div class="home__paragraphy">
+          <p>
+            Whether you're seeking to enhance your goal, explore new files, or
+            pursue academic interests, our comprehensive platform offers diverse
+            files and resources tailored to support your lifelong learning
+            journey.
+          </p>
+        </div>
+        <div class="home__input">
+          <form action="">
+            <div class="position">
+              <input type="text" id="searchInput" placeholder="Search the files" required />
+              <img
+                class="picture"
+                src="/pages/assets/icon de pesquisa.jpeg"
+                alt=""
+              />
+            </div>
+            <button type="submit">Search Now</button>
+          </form>
+        </div>
+      </div>
+      <!--  -->
+      <div class="home__img">
+        <img src="/pages/assets/header.jpg" alt="" />
+      </div>
+    </div>
+
+    <div class="container__title">
+      <h1>All the files that you <span> looking</span> for</h1>
+    </div>
+
+    <div class="container">
+      <div class="container__files">
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Nome do Professor</th>
+              <th>Curso</th>
+              <th>Disciplina</th>
+              <th>Feedback do Arquivo</th>
+              <th>Arquivo</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaArquivos"></tbody>
+        </table>
+      </div>
+    </div>
+    <footer>
+      <div class="footer__text">
+        <p>Copyright © 2025 TI12C. All rights reserved.</p>
+      </div>
+      <div class="nav__logo">
+        <p>IPDDF</p>
+      </div>
+    </footer>
+        <script>
+          
+             // Filtragem da tabela com base na pesquisa do usuário
+        document.getElementById('searchInput').addEventListener('input', function () {
+            let searchTerm = this.value.toLowerCase();  // Termo de busca digitado
+            let rows = document.querySelectorAll('#tabelaArquivos tr'); // Todas as linhas da tabela
+
+            // Loop sobre cada linha da tabela
+            rows.forEach(function (row) {
+                // Verifica se o nome da turma, disciplina ou arquivo contém o termo de busca
+                let turma = row.cells[0].textContent.toLowerCase();
+                let disciplina = row.cells[1].textContent.toLowerCase();
+                let recomendacao = row.cells[2].textContent.toLowerCase();
+                let arquivo = row.cells[3].textContent.toLowerCase();
+
+                // Exibe a linha se algum campo corresponder ao termo de busca
+                if (
+                    turma.includes(searchTerm) ||
+                    disciplina.includes(searchTerm) ||
+                    recomendacao.includes(searchTerm) ||
+                    arquivo.includes(searchTerm)
+                ) {
+                    row.style.display = ''; // Exibe a linha
+                } else {
+                    row.style.display = 'none'; // Oculta a linha
+                }
+            });
+        });
+
+      // Recuperar os dados armazenados no localStorage
+      const dados = JSON.parse(localStorage.getItem("dados")) || [];
+
+      // Selecionar o elemento onde os dados serão exibidos
+      const tabela = document.getElementById("tabelaArquivos");
+
+      // Exibir os dados na tabela
+      if (dados.length > 0) {
+        dados.forEach((dado) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `   
+            <td>${dado.teacher}</td>
+            <td>${dado.turma}</td>
+            <td>${dado.disciplina}</td>
+            <td>${dado.recomendacoes}</td>
+            <td><a href="#">${dado.arquivoNome}</a></td>
+          `;
+          tabela.appendChild(row);
+        });
+      } else {
+        tabela.innerHTML = '<tr><td colspan="4">Nenhum arquivo enviado.</td></tr>';
+      }
+    </script>
+  </body>
+</html>
+ </body>
+</html>
+
